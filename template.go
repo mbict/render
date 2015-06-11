@@ -51,6 +51,9 @@ func NewTemplateRenderer(options ...TemplateOptions) Render {
 	return &templateRender{
 		options:  opt,
 		template: compileTemplate(opt),
+		htmlOptions: HTMLOptions{
+			Layout: opt.Layout,
+		},
 	}
 }
 
@@ -67,9 +70,13 @@ func (r *templateRender) Render(rw http.ResponseWriter, code int, data ...interf
 
 	//get options
 	name := data[0].(string)
-	binding := data[1]
+	var binding interface{} = nil
+	if len(data) >= 2 {
+		binding = data[1]
+	}
+
 	var opt HTMLOptions
-	if len(data) > 2 {
+	if len(data) >= 3 {
 		opt = data[2].(HTMLOptions)
 	} else {
 		opt = r.htmlOptions
