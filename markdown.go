@@ -15,7 +15,7 @@ func (_ markdownRender) Render(rw http.ResponseWriter, code int, data ...interfa
 	input := data[0].([]byte)
 
 	unsafe := blackfriday.MarkdownCommon(input)
-	html := bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon(unsafe))
+	html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 	_, err := rw.Write(html)
 	return err
 }

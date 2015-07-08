@@ -13,7 +13,7 @@ func (_ plainRender) Render(rw http.ResponseWriter, code int, data ...interface{
 	rw.Header().Set("Content-Type", ContentPlain+"; charset=utf-8")
 	rw.WriteHeader(code)
 	format := data[0].(string)
-	args := data[1].([]interface{})
+	args := data[1:]
 	var err error
 	if len(args) > 0 {
 		_, err = rw.Write([]byte(fmt.Sprintf(format, args...)))
